@@ -21,10 +21,12 @@ const messagesSchema = new Schema({
   system: Boolean,
   text: String,
   user_id: String,
+  identification: Number,
 });
 const Message = mongoose.model('Message', messagesSchema);
 
 const app = express();
+let i = -1;
 
 const recursiveAxios = (res) => {
   if (res) {
@@ -32,8 +34,11 @@ const recursiveAxios = (res) => {
     const {
       response: { messages },
     } = res.data;
-    console.log(messages[0]);
-    Message.insertMany(messages);
+    const messagesWithIndex = messages.map((message) => {
+      i += 1;
+      return Object.assign(message, { identification: i });
+    });
+    Message.insertMany(messagesWithIndex);
     const lastMessage = messages.slice(-1)[0];
     const lastMessageId = lastMessage.id;
     axios
