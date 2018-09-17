@@ -4,7 +4,6 @@ const axios = require('axios');
 const mongoose = require('mongoose');
 
 const { GOCHU_BROS_MESSAGES, OTIS_MONGO } = process.env;
-console.log(OTIS_MONGO);
 
 const { Schema } = mongoose;
 
