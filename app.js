@@ -4,6 +4,7 @@ const axios = require('axios');
 const mongoose = require('mongoose');
 
 const { GOCHU_BROS_MESSAGES, OTIS_MONGO } = process.env;
+console.log(OTIS_MONGO);
 
 const { Schema } = mongoose;
 
@@ -15,12 +16,12 @@ const messagesSchema = new Schema({
   group_id: Number,
   id: Number,
   name: String,
-  sender_id: Number,
+  sender_id: String,
   sender_type: String,
   source_guid: String,
   system: Boolean,
   text: String,
-  user_id: Number,
+  user_id: String,
 });
 const Message = mongoose.model('Message', messagesSchema);
 
@@ -32,6 +33,7 @@ const recursiveAxios = (res) => {
     const {
       response: { messages },
     } = res.data;
+    console.log(messages[0]);
     Message.insertMany(messages);
     const lastMessage = messages.slice(-1)[0];
     const lastMessageId = lastMessage.id;
@@ -47,7 +49,7 @@ const recursiveAxios = (res) => {
   }
 };
 
-app.get('/', (req, res) => {
+const importMessages = () => {
   mongoose
     .connect(
       OTIS_MONGO,
@@ -55,6 +57,12 @@ app.get('/', (req, res) => {
     )
     .then(() => recursiveAxios())
     .catch(e => console.log(e));
+};
+
+// importMessages();
+
+app.get('/', (req, res) => {
+  importMessages();
   res.send('it worked!');
 });
 
