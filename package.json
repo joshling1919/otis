@@ -14,5 +14,8 @@
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "mongoose": "^5.2.9"
+  },
+  "devDependencies": {
+    "aws-sdk": "^2.350.0"
   }
 }

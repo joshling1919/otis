@@ -1,0 +1,32 @@
+service: otis-serverless
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: dev
+  region: us-west-2
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - lambda:InvokeFunction
+      Resource: '*'
+
+functions:
+  highlight:
+    handler: functions/highlight/index.handler
+    events:
+      - http:
+          path: highlight
+          method: post
+    environment:
+      MONGO: ${ssm:MONGO}
+  send:
+    handler: functions/send/index.handler
+    events:
+      - http:
+          path: send
+          method: post
+    environment:
+      BETCHU_BOT: ${ssm:TEST}
+      PROD_GROUP: ${ssm:PROD}
+      MONGO: ${ssm:MONGO}
