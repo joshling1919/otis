@@ -19,7 +19,9 @@ This app uses 2 key functions on a weekly basis:
 
 ### `highlight`
 
-This function queries the mongo database that holds all of the chat messages and finds a random one that has 10 or more "likes". It then also queries for the 5 messages that preceded it and the 5 messages that followed it:
+This function queries the mongo database that holds all of the chat messages and
+finds a random one that has 10 or more "likes". It then also queries for the 5
+messages that preceded it and the 5 messages that followed it:
 
 ```js
 const highlight = async () => {
